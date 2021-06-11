@@ -12,9 +12,9 @@ async fn main() -> Result<(), std::io::Error> {
         Err(_) => "8080".to_owned(),
     };
 
-    println!("PORT: {}", port);
+    let addr = ("0.0.0.0", port.parse().expect("Port must be a number"));
 
-    let addr = format!("127.0.0.1:{}", port);
+    println!("addr: {:?}", addr);
 
     HttpServer::new(|| App::new().service(index))
         .bind(addr)?
