@@ -7,7 +7,7 @@ async fn index() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> Result<(), std::io::Error> {
-    let port = match std::env::var("$PORT") {
+    let port = match std::env::var("PORT") {
         Ok(port) => port,
         Err(_) => "8080".to_owned(),
     };
