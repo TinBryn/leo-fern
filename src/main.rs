@@ -1,4 +1,4 @@
-use actix_web::{App, HttpResponse, HttpServer, Responder, get};
+use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 
 #[get("/")]
 async fn index() -> impl Responder {
@@ -7,11 +7,15 @@ async fn index() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> Result<(), std::io::Error> {
-    HttpServer::new(|| {
-        App::new()
-        .service(index)
-    })
-    .bind("127.0.0.1:8080")?
-    .run()
-    .await
+    let port = match std::env::var("PORT") {
+        Ok(port) => port,
+        Err(_) => "8080".to_owned(),
+    };
+
+    let addr = format!("127.0.0.1:{}", port);
+
+    HttpServer::new(|| App::new().service(index))
+        .bind(addr)?
+        .run()
+        .await
 }
